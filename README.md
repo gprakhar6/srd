@@ -1,4 +1,5 @@
-# Reads a simple structure of format
+# Reads a simple C structure from a file
+
 
 ``` cat inp.txt
 MEMBER_NAME_1 : VALUE_1
