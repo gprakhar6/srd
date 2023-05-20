@@ -17,6 +17,15 @@ and second is the member name. You also have to wrap this declaration
 around #define SRD_STRUCT and make sure to #undef it, so that further
 such declaration are possible without mixup. See example below.
 ```c
+struct my_struct {
+    char test[128];
+    double x;
+    float y;
+    double arr[3];
+    uint8_t t;
+    double rmat[3][3];
+};
+
 #define SRD_STRUCT struct my_struct
 struct srd_info_t my_struct_info[] =
 {
