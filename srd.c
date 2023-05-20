@@ -6,7 +6,8 @@
 
 #define MAX_VALUE_LEN 128
 
-static int search_name(const char *name, const struct srd_info_t *srd, const int n)
+static int search_name(const char *name,
+		       const struct srd_info_t *srd, const int n)
 {
     int i, ret;
     ret = -1;
@@ -19,7 +20,8 @@ static int search_name(const char *name, const struct srd_info_t *srd, const int
     }
     return ret;
 }
-int srd(FILE *fp, const void *buf, const struct srd_info_t *srd, const int n)
+int srd1(FILE *fp, const void *buf, const struct srd_info_t *srd,
+	 struct srd_field_t *fl, const int n)
 {
     int ret, i, en, idx;
     uint8_t *buf8 = (uint8_t *)buf;
@@ -47,10 +49,12 @@ int srd(FILE *fp, const void *buf, const struct srd_info_t *srd, const int n)
 	    goto finish;
 	}
 	e = &srd[idx];
-	printf("Reading %s\n", e->name);
+	//printf("Reading %s\n", e->name);
+	if(fl != NULL)
+	    strcpy(fl[idx].name, e->name);
 	en = 0;
 	while(fscanf(fp, "%[^\t\r\n,;]%*[ \t,;]", value) > 0) {
-	    printf("Reading value=%s, with fmt=%s\n", value, e->fmt);
+	    //printf("Reading value=%s, with fmt=%s\n", value, e->fmt);
 	    if(sscanf(value, e->fmt,
 		      buf8 + e->offset + en*e->elem_sz) > 0) {
 		en++;

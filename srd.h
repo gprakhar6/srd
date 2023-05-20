@@ -5,6 +5,17 @@
 #include <stddef.h>
 
 #define MAX_NAME_LEN_STRUCT_MEMBER (128)
+#define SRD_READ 1
+#define SRD_NOT_READ 0
+
+#define SRD_CALL4(_1,_2,_3,_4) srd1(_1,_2,_3,NULL,_4)
+#define SRD_CALL5(_1,_2,_3,_4,_5) srd1(_1,_2,_3,_4,_5)
+#define GET_SRD_CALL_NAME(_1,_2,_3,_4,_5,NAME,...) NAME
+#define srd(...) GET_SRD_CALL_NAME(__VA_ARGS__,SRD_CALL5,SRD_CALL4)(__VA_ARGS__)
+
+struct srd_field_t {
+    char name[MAX_NAME_LEN_STRUCT_MEMBER];
+};
 
 struct srd_info_t {
     char name[MAX_NAME_LEN_STRUCT_MEMBER];
@@ -73,7 +84,6 @@ struct srd_info_t {
 #define SRD_INFO_ELEM(n, x) {n, SRD_FMT(x), SRD_ELEM_SZ(x),	\
 	    offsetof(SRD_STRUCT, x)}
 
-int srd(FILE *fp, const void *buf, const struct srd_info_t *srd,
-	const int n);
-
+int srd1(FILE *fp, const void *buf, const struct srd_info_t *srd,
+	 struct srd_field_t *fl, const int n);
 #endif
