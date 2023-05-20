@@ -40,4 +40,19 @@ struct srd_info_t my_struct_info[] =
 #undef SRD_STRUCT
 ```
 
-This program mostly uses the preprocessor capabilities of C11. 
+This program mostly uses the preprocessor capabilities of C11.
+
+Use the following call to fill the structure passed as buf. Open
+the FILE *fp and pass it to this funciton. It does not close the
+fp
+```c
+/**
+ * fp: file descriptor
+ * buf: Where to read the input. Pass the structure you want to fill
+ * srd: is the srd_info_t array you need to declare
+ * n: it is the sizeof the srd array
+*/
+int srd(FILE *fp, const void *buf, const struct srd_info_t *srd,
+	const int n);
+	
+```
