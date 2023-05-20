@@ -33,13 +33,13 @@ int srd(FILE *fp, const void *buf, const struct srd_info_t *srd, const int n)
     }
     while(1) {
     start:
-	fscanf(fp, "%*[ \t\n]");
+	fscanf(fp, "%*[ \t\r\n]");
 	if(fscanf(fp, "%[^:\t ]%*[:\t ]", name) <= 0) {
 	    ret = 0;
 	    goto finish;
 	}
 	if((name[0] == '/') && (name[1] == '/')) {
-	    fscanf(fp, "%*[^\n]%*[\n]");
+	    fscanf(fp, "%*[^\r\n]%*[\r\n]");
 	    goto start;
 	}
 	if((idx = search_name(name, srd, n)) < 0) {
@@ -49,7 +49,7 @@ int srd(FILE *fp, const void *buf, const struct srd_info_t *srd, const int n)
 	e = &srd[idx];
 	printf("Reading %s\n", e->name);
 	en = 0;
-	while(fscanf(fp, "%[^\t\n,;]%*[ \t,;]", value) > 0) {
+	while(fscanf(fp, "%[^\t\r\n,;]%*[ \t,;]", value) > 0) {
 	    printf("Reading value=%s, with fmt=%s\n", value, e->fmt);
 	    if(sscanf(value, e->fmt,
 		      buf8 + e->offset + en*e->elem_sz) > 0) {
